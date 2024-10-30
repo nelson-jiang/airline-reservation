@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+</head>
+
+<body>
+
+
+<h1> Add a New Plane </h1>
+
+<form action= "/save_added_plane" method="POST"> <!-- action: where we go to after we click submit buttom. Redirect to the URL-->
+                                                 <!--method: how user input is passed to action URL-->
+
+    
+    <label for="airline_name"> Airline: </label>
+    <input type= "text" id= "airline_name" name= "airline_name" value = "{{session['airline_name']}}" readonly> <br> <!--Remember: put airline name in Session after successful login-->
+
+    <label for="airplane_id"> ID: </label>
+    <input type= "number" id= "airplane_id" name= "airplane_id" min = "1" value = "{{airplane_id}}" required><br>
+
+    <label for="num_of_seats"> Number of Seats: </label>
+    <input type = "number" id = "num_of_seats" name = "num_of_seats" min = "0" value = "{{num_of_seats}}" required> <br>
+
+    <label for="manufacturer"> Manufacturer: </label>
+    <input type= "text" id= "manufacture" name= "manufacture" value = "{{manufacture}}" required><br>
+
+    <label for="age"> Age: </label>
+    <input type= "number" id= "age" name= "age" min = "0" value = "{{age}}" required><br>
+
+
+    <input type="submit" value="Save">
+
+    
+
+
+</form> 
+
+
+<!--Shows the error if there is one-->
+{% if error %}
+<p class="error"><strong>Error:</strong> {{error}}</p>
+{% endif %}
+
+  
+
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+<html>
+<head>
+  <style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  </style>
+</head>
+<body>
+  
+<!-- this is for searching for flights as a customer-->
+<h2>Flight Search</h2>
+  <form action= "/c_search" method="POST">
+
+  <label for="trip_type"> One Way | Round Trip </label><br>
+  <input type="radio" id="one_way" name ="trip_type" value="One Way" checked>
+  <input type="radio" id="round_trip" name ="trip_type" value="Round Trip"> <br>
+
+
+  <label for="dept_airport"> Leaving From: </label>
+    <select name="dept_airport" id="dept_airport" required>
+        <option value = ""></option>
+        {% for each_airport in airports %}
+        <option value="{{ each_airport['airport_name'] }}" {% if each_airport['airport_name'] == dept_airport %} selected {% endif %}> {{ each_airport['airport_name'] }} </option>
+        {% endfor %}
+    </select>
+
+  <label for="dest_airport"> Going To: </label>
+  <select name="dest_airport" id="dest_airport" required>
+      <option value = ""></option>
+      {% for each_airport in airports %}
+      <option value="{{ each_airport['airport_name'] }}" {% if each_airport['airport_name'] == dest_airport %} selected {% endif %}> {{ each_airport['airport_name'] }} </option>
+      {% endfor %}
+  </select> <br>
+ 
+  <label for="dept_date_time">Depature Date:</label><br>
+  <input type="date" id="dept_date" name="dept_date" required><br>
+
+  <label for="return_date_time">Return Date:</label><br>
+  <input type="date" id ="return_date" name = "return_date"><br><br>
+    
+  <input type="submit" value="Search">
+</form> 
+
+<!--if customer search for one way trip-->
+{% if one_way_result %}
+  <h2>Search Results</h2>
+  <table>
+    <tr>
+      <th>Airline</th>
+      <th>Flight Number</th>
+      <th>Departure Date and Time</th>
+      <th>Departure Airport</th>
+      <th>Arrival Airport</th>
+      <th>Base Price</th>
+      {%if session and session['username']%}
+      <th> Action </th>
+      {%endif%}
+    </tr>
+
+    {% for each_record in one_way_result %} <!--loop through the records-->
+    <tr>
+        <td>{{each_record['airline_name']}}</td>
+        <td>{{each_record['flight_num']}}</td>
+        <td>{{each_record['dept_date_time']}}</td>
+        <td>{{each_record['airport_name']}}</td>
+        <td>{{each_record['a.airport_name']}}</td>
+        <td>{{each_record['base_price']}}</td>
+        {%if session and session['username']%}
+        <td><a href="/purchase_one_way?airline_name={{each_record['airline_name']}}&flight_num={{each_record['flight_num']}}&dept_date_time={{each_record['dept_date_time']}}&base_price={{each_record['base_price']}}">Buy</a></td>
+        {%endif%}
+    </tr>
+  {% endfor %}
+  </table> </br>
+  
+
+
+<!--if customer search for round trip-->
+{% elif departure_result %}
+  <h2>Departure Flights</h2>
+  <table>
+    <tr>
+      <th>Airline</th>
+      <th>Flight Number</th>
+      <th>Departure Date and Time</th>
+      <th>Departure Airport</th>
+      <th>Arrival Airport</th>
+      <th>Base Price</th>
+      <th> Action </th>
+    </tr>
+
+    {% for each_record in departure_result %} <!--loop through the records-->
+    <tr>
+        <td>{{each_record['airline_name']}}</td>
+        <td>{{each_record['flight_num']}}</td>
+        <td>{{each_record['dept_date_time']}}</td>
+        <td>{{each_record['airport_name']}}</td>
+        <td>{{each_record['a.airport_name']}}</td>
+        <td>{{each_record['base_price']}}</td>
+        <td><a href ="/check_return?dept_airline_name={{each_record['airline_name']}}&dept_flight_num={{each_record['flight_num']}}&dept_dept_date_time={{each_record['dept_date_time']}}&dept_base_price={{each_record['base_price']}}&return_date={{return_date}}&dept_airport_name={{each_record['airport_name']}}&dest_airport_name={{each_record['a.airport_name']}}">Check Returns</a></td>
+    </tr>
+  {% endfor %}
+  </table> </br>
+
+
+{% elif return_result %}
+
+  <h2>Departure Flight</h2>
+  <table>
+    <tr>
+
+      <th>Airline</th>
+      <th>Flight Number</th>
+      <th>Departure Date and Time</th>
+      <th>Base Price</th>
+      
+    </tr>
+
+    <!--loop through the records-->
+    <tr>
+        <td>{{dept_airline_name}}</td>
+        <td>{{dept_flight_num}}</td>
+        <td>{{dept_dept_date_time}}</td>
+        <td>{{dept_base_price}}</td>
+    </tr>
+  
+  </table>
+
+
+  <h2> Return Flights</h2>
+  <table>
+    <tr>
+      <th>Airline</th>
+      <th>Flight Number</th>
+      <th>Departure Date and Time</th>
+      <th>Departure Airport</th>
+      <th>Arrival Airport</th>
+      <th>Base Price</th>
+      {%if session and session['username']%}
+      <th> Action </th>
+      {%endif%}
+    </tr>
+
+    {% for each_record in return_result %} <!--loop through the records-->
+    <tr>
+        <td>{{each_record['airline_name']}}</td>
+        <td>{{each_record['flight_num']}}</td>
+        <td>{{each_record['dept_date_time']}}</td>
+        <td>{{each_record['airport_name']}}</td>
+        <td>{{each_record['a.airport_name']}}</td>
+        <td>{{each_record['base_price']}}</td>
+        {%if session and session['username']%}
+        <td><a href ="/purchase_round?return_airline_name={{each_record['airline_name']}}&return_flight_num={{each_record['flight_num']}}&return_dept_date_time={{each_record['dept_date_time']}}&return_base_price={{each_record['base_price']}}&dept_airline_name={{dept_airline_name}}&dept_flight_num={{dept_flight_num}}&dept_dept_date_time={{dept_dept_date_time}}&dept_base_price={{dept_base_price}}">Buy</a></td>
+        {%endif%}
+    </tr>
+  {% endfor %}
+  </table> </br>
+
+
+{% endif %}
+
+{%if session and session['username']%}
+<a href="/c_homepage">Go Back</a>
+{% else %}
+<a href="/">Go Back</a>
+{%endif%}
+
+</body>
+
+
+</html>

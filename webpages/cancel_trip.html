@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+{% if can_cancel %}
+<h4>Are you Sure?</h4>
+
+<form action="/save_cancel_trip", method = 'POST'>
+    
+    <input type= "hidden" id= "airline_name" name= "airline_name" value = "{{airline_name}}"> 
+    <input type= "hidden" id= "flight_num" name= "flight_num" value = "{{flight_num}}">
+    <input type = "hidden" id = "dept_date_time" name = "dept_date_time" value = "{{dept_date_time}}">
+    <input type = "hidden" id = "ticket_ID" name = "ticket_ID" value = "{{ticket_ID}}">
+
+    <input type="submit" value="YES">
+</form>
+
+<form action="/c_view_my_flights", method = 'POST'>
+    <input type="submit" value="NO">
+</form>
+
+{% else %}
+<h4> Sorry, cancel failed</h4>
+<a href="/c_view_my_flights">Go Back</a>
+{% endif %}
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+

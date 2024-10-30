@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+</head>
+
+<body>
+
+
+<h1> Add a New Airport </h1>
+
+<form action= "/add_airport" method="POST"> <!--Where to go after we click Save-->
+
+    
+    <label for="airport_name"> Airport Name: </label>
+    <input type= "text" id= "airport_name" name= "airport_name" value = "{{ airport_name }}" required><br>
+
+    <label for="city"> City: </label>
+    <input type= "text" id= "city" name= "city" value = "{{ city }}" required><br>
+
+    <label for="country"> Country: </label>
+    <input type = "text" id = "country" name = "country" value = "{{ country }}"required> <br>
+
+    <!-- the if statements will control which dropdown value is selected by default. If we made an error in submitting form and we resubmit form, we want our error to stay-->
+    <label for="type">Type:</label> <!--Drop down list-->
+    <select name="type" id="type" required>
+        <option disabled selected value> -- select an option -- </option>
+        <option value="international" {% if type == 'international' %} selected {% endif %}> International </option>
+        <option value="domestic" {% if type == 'domestic' %} selected {% endif %}> Domestic </option>
+        <option value="both" {% if type == 'both' %} selected {% endif %}> Both </option>
+      </select>
+
+      <br>
+
+
+    <input type="submit" value="Save">
+
+    </form> 
+
+
+    <!--Shows the error if there is one-->
+    {% if error %}
+    <p class="error"><strong>Error:</strong> {{error}}</p>
+    {% endif %}
+
+
+
+
+</body>
+
+</html>

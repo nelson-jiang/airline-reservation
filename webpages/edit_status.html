@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head> 
+</head>
+
+<body>
+
+
+<h1> Edit Flight Status </h1>
+
+<form action= "/save_status" method="POST">
+
+    <label for="airline_name">Airline:</label>
+    <input type= "text" id= "airline_name" name= "airline_name" value = "{{x['airline_name']}}" readonly><br>
+
+    <label for="flight_number">Flight:</label>
+    <input type= "text" id= "flight_num" name= "flight_num" value = "{{x['flight_num']}}" readonly><br>
+
+    <label for="dept_date_time">Departure Date and Time:</label>
+    <input type= "datetime-local" id= "dept_date_time" name= "dept_date_time" value = "{{x['dept_date_time']}}" readonly><br>
+
+    <label for="arr_date_time">Arrival Date and Time:</label>
+    <input type= "datetime-local" id= "arr_date_time" name= "arr_date_time" value = "{{x['arr_date_time']}}" readonly><br>
+
+    <label for="status">Status:</label>
+
+    <select name="status" id="status" required>
+        <option value="on time" {% if x['status']== 'on time' %} selected {% endif %}>On Time</option>
+        <option value="delayed" {% if x['status'] == 'delayed' %} selected {% endif %}>Delayed</option>
+      </select>
+
+      <br>
+
+    
+    <input type="submit" value="Save">
+    </form> 
+
+
+
+
+
+</body>
+
+</html>

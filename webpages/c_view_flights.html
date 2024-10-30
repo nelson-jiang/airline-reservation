@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+      
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+      
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+        </style>
+
+</head>
+
+<body>
+
+  <a href="/c_homepage">Home</a>
+
+  <h1> Customer Flights </h1>
+
+  <h3> Upcoming Flights</h3> </br>
+	<table>
+        <tr>
+          <th>Airline Name</th>
+          <th>Flight Number</th>
+          <th>Departure Date&Time</th>
+          <th>Ticket Number</th>
+          <th>Departure Airport</th>
+          <th>Arrival Airport</th>
+          <th>Status</th>
+          <th>Sold Price</th>
+          <th>Cancel Trip</th>
+        </tr>
+
+        {% for each_record in query2_result %} <!--loop through the records-->
+        <tr>
+          <td>{{each_record['airline_name']}}</td>
+          <td>{{each_record['flight_num']}}</td>
+          <td>{{each_record['dept_date_time']}}</td>
+          <td>{{each_record['ticket_ID']}}</td>
+          <td>{{each_record['airport_name']}}</td>
+          <td>{{each_record['a.airport_name']}}</td>
+          <td>{{each_record['status']}}</td>
+          <td>{{each_record['sold_price']}}</td>
+          <td><a href="/cancel_trip?airline_name={{each_record['airline_name']}}&flight_num={{each_record['flight_num']}}&dept_date_time={{each_record['dept_date_time']}}&ticket_ID={{each_record['ticket_ID']}}">Cancel</a></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!--- show past flights -->>
+	<h3> Past Flights </h3> </br>
+    <table>
+        <tr>
+          <th>Airline Name</th>
+          <th>Flight Number</th>
+          <th>Departure Date&Time</th>
+          <th>Ticket Number</th>
+          <th>Departure Airport</th>
+          <th>Arrival Airport</th>
+          <th>Sold Price</th>
+          <th>Ratings and Comments</th>
+        </tr>
+
+        {% for each_record in query_result %} <!--loop through the records-->
+        <tr>
+          <td>{{each_record['airline_name']}}</td>
+          <td>{{each_record['flight_num']}}</td>
+          <td>{{each_record['dept_date_time']}}</td>
+          <td>{{each_record['ticket_ID']}}</td>
+          <td>{{each_record['airport_name']}}</td>
+          <td>{{each_record['a.airport_name']}}</td>
+          <td>{{each_record['sold_price']}}</td>
+          <td><a href="/rating_comments?airline_name={{each_record['airline_name']}}&flight_num={{each_record['flight_num']}}&dept_date_time={{each_record['dept_date_time']}}"> Rating and Comments</a></td>
+
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<html>
+<head>
+</head>
+<body>
+
+<h1>{{customer}} Registration</h1> </br>
+<form action="/c_registerAuth" method="POST">
+  <input type="text" name = "email" placeholder="email" required/> </br>
+  <input type="text" name = "name" placeholder="name" required/> </br>
+  <input type="password" name = "password" placeholder="password" required/></br>
+  
+  <input type="text" name = "building" placeholder="building" required/> </br>
+  <input type="text" name = "street" placeholder="street" required/> </br>
+  <input type="text" name = "city" placeholder="city" required/> </br>
+  <input type="text" name = "state" placeholder="state" required/> </br>
+
+  <input type="text" name = "phone_num" placeholder="phone_num" required/> </br>
+  <input type="datetime-local" name = "dob" placeholder="date of birth (optional)"/> </br>
+  
+  <input type="text" name = "passport_num" placeholder="passport_num (optional)"/> </br>
+  <input type="text" name = "passport_country" placeholder="passport_country (optional)"/> </br>
+  <input type="datetime-local" name = "expiration_date" placeholder="Passport Expiration Date (optional)"/> </br>
+
+  
+  <input type="submit" value = Register />
+  
+  {% if error %}
+    <p class="error"><strong>Error:</strong> {{error}}</p>
+  {% endif %}
+</form>
+
+<a href="/">Go back</a>
+
+</body>
+
+
+</html>
